@@ -24,17 +24,18 @@ var d;
 var score = 0;
 var game;
 var countdown = 3;
+var gameStarted = false;
 
 document.addEventListener('keydown', startGame);
 restartButton.addEventListener('click', restart);
 
 function startGame(event) {
-    if(event.keyCode == 32) {
+    if(event.keyCode == 32 && !gameStarted) {
+        gameStarted = true;
         document.removeEventListener('keydown', startGame);
         document.addEventListener('keydown', direction);
         game = setInterval(draw, 100);
         startText.style.display = 'none';
-        document.getElementById('startButton').disabled = true;
         document.getElementById('startButton').style.backgroundColor = "gray";
     }
 }
@@ -110,15 +111,13 @@ document.getElementById('upButton').addEventListener('click', function() { d = "
 document.getElementById('rightButton').addEventListener('click', function() { d = "RIGHT"; });
 document.getElementById('downButton').addEventListener('click', function() { d = "DOWN"; });
 document.getElementById('startButton').addEventListener('click', function() {
+    if (gameStarted) {
+        return;
+    }
+    gameStarted = true;
     document.removeEventListener('keydown', startGame);
     document.addEventListener('keydown', direction);
     game = setInterval(draw, 100);
     document.getElementById('mobileStartText').style.display = 'none';
-    document.getElementById('startButton').disabled = true;
     document.getElementById('startButton').style.backgroundColor = "gray";
 });
-window.addEventListener('keydown', function(e) {
-    if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(e.code) > -1) {
-        e.preventDefault();
-    }
-}, false);
