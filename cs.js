@@ -4,12 +4,6 @@ window.addEventListener('keydown', function(e) {
     }
 }, false);
 
-window.addEventListener('keydown', function(e) {
-    if(e.keyCode == 32 && e.target == document.body) {
-        e.preventDefault();
-    }
-});
-
 var canvas = document.getElementById('gameCanvas');
 var context = canvas.getContext('2d');
 var restartButton = document.getElementById('restartButton');
@@ -29,7 +23,6 @@ var food = {
 var d;
 var score = 0;
 var game;
-var countdown = 3;
 var gameStarted = false;
 
 document.addEventListener('keydown', startGame);
@@ -43,6 +36,7 @@ function startGame(event) {
         game = setInterval(draw, 100);
         startText.style.display = 'none';
         document.getElementById('startButton').style.backgroundColor = "gray";
+        document.getElementById('startButton').disabled = true;
     }
 }
 
@@ -117,13 +111,13 @@ document.getElementById('upButton').addEventListener('click', function() { d = "
 document.getElementById('rightButton').addEventListener('click', function() { d = "RIGHT"; });
 document.getElementById('downButton').addEventListener('click', function() { d = "DOWN"; });
 document.getElementById('startButton').addEventListener('click', function() {
-    if (gameStarted) {
-        return;
+    if(!gameStarted) {
+        gameStarted = true;
+        document.removeEventListener('keydown', startGame);
+        document.addEventListener('keydown', direction);
+        game = setInterval(draw, 100);
+        document.getElementById('mobileStartText').style.display = 'none';
+        this.style.backgroundColor = 'grey';
+        this.disabled = true;
     }
-    gameStarted = true;
-    document.removeEventListener('keydown', startGame);
-    document.addEventListener('keydown', direction);
-    game = setInterval(draw, 100);
-    document.getElementById('mobileStartText').style.display = 'none';
-    document.getElementById('startButton').style.backgroundColor = "gray";
 });
