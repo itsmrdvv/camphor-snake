@@ -4,6 +4,12 @@ window.addEventListener('keydown', function(e) {
     }
 }, false);
 
+window.addEventListener('keydown', function(e) {
+    if(e.keyCode == 32 && e.target == document.body) {
+        e.preventDefault();
+    }
+});
+
 var canvas = document.getElementById('gameCanvas');
 var context = canvas.getContext('2d');
 var restartButton = document.getElementById('restartButton');
